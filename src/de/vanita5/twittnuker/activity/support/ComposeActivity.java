@@ -528,7 +528,7 @@ public class ComposeActivity extends BaseSupportDialogActivity implements TextWa
         mMenuBar.setOnMenuItemClickListener(this);
 		mEditText.setOnEditorActionListener(mPreferences.getBoolean(KEY_QUICK_SEND, false) ? this : null);
 		mEditText.addTextChangedListener(this);
-        final AccountSelectorAdapter accountAdapter = new AccountSelectorAdapter(this);
+        final AccountSelectorAdapter accountAdapter = new AccountSelectorAdapter(mMenuBar.getPopupContext());
         accountAdapter.addAll(Account.getAccountsList(this, false));
         mAccountSelectorPopup = IListPopupWindow.InstanceHelper.getInstance(mMenuBar.getPopupContext());
         mAccountSelectorPopup.setInputMethodMode(IListPopupWindow.INPUT_METHOD_NOT_NEEDED);
@@ -944,7 +944,6 @@ public class ComposeActivity extends BaseSupportDialogActivity implements TextWa
         Utils.setMenuItemAvailability(menu, MENU_VIEW, hasInReplyTo);
         Utils.setMenuItemAvailability(menu, R.id.medias_menu, hasMedia /*|| hasInReplyTo*/);
         Utils.setMenuItemAvailability(menu, MENU_TOGGLE_SENSITIVE, hasMedia);
-        Utils.setMenuItemAvailability(menu, MENU_EDIT_MEDIAS, hasMedia);
 
         final MenuItem itemToggleSensitive = menu.findItem(MENU_TOGGLE_SENSITIVE);
         if (itemToggleSensitive != null) {
@@ -1058,7 +1057,7 @@ public class ComposeActivity extends BaseSupportDialogActivity implements TextWa
 	private void updateTextCount() {
         if (mSendTextCountView == null || mEditText == null) return;
         final String textOrig = parseString(mEditText.getText());
-		final String text = hasMedia() && textOrig != null ? mImageUploaderUsed ? getImageUploadStatus(this,
+		final String text = hasMedia() && textOrig != null ? mImageUploaderUsed ? getImageUploadStatus(
 		    new String[] { FAKE_IMAGE_LINK }, textOrig) : textOrig + " " + FAKE_IMAGE_LINK : textOrig;
 		final int validatedCount = text != null ? mValidator.getTweetLength(text) : 0;
         mSendTextCountView.setTextCount(validatedCount);
@@ -1341,19 +1340,19 @@ public class ComposeActivity extends BaseSupportDialogActivity implements TextWa
 
 	private static class DeleteImageTask extends AsyncTask<Void, Void, Boolean> {
 
-		final ComposeActivity activity;
-		private final ParcelableMediaUpdate[] medias;
+		final ComposeActivity mActivity;
+		private final ParcelableMediaUpdate[] media;
 
-		DeleteImageTask(final ComposeActivity activity, final ParcelableMediaUpdate... medias) {
-			this.activity = activity;
-			this.medias = medias;
+		DeleteImageTask(final ComposeActivity activity, final ParcelableMediaUpdate... media) {
+			this.mActivity = activity;
+			this.media = media;
 		}
 
 		@Override
 		protected Boolean doInBackground(final Void... params) {
-			if (medias == null) return false;
+			if (media == null) return false;
 			try {
-				for (final ParcelableMediaUpdate media : medias) {
+				for (final ParcelableMediaUpdate media : this.media) {
                     if (media.uri == null) continue;
                     final Uri uri = Uri.parse(media.uri);
                     if (ContentResolver.SCHEME_FILE.equals(uri.getScheme())) {
@@ -1371,17 +1370,17 @@ public class ComposeActivity extends BaseSupportDialogActivity implements TextWa
 
 		@Override
 		protected void onPostExecute(final Boolean result) {
-			activity.setProgressVisibility(false);
-			activity.removeAllMedia(Arrays.asList(medias));
-			activity.setMenu();
+			mActivity.setProgressVisibility(false);
+			mActivity.removeAllMedia(Arrays.asList(media));
+			mActivity.setMenu();
 			if (!result) {
-				Crouton.showText(activity, R.string.error_occurred, CroutonStyle.ALERT);
+				Crouton.showText(mActivity, R.string.error_occurred, CroutonStyle.ALERT);
 			}
 		}
 
 		@Override
 		protected void onPreExecute() {
-			activity.setProgressVisibility(true);
+			mActivity.setProgressVisibility(true);
 		}
 	}
 

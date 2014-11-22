@@ -99,6 +99,7 @@ public class ThemePreviewPreference extends Preference implements Constants, OnS
 		final View statusContentView = view.findViewById(R.id.theme_preview_status_content);
 		final TextView retweetsCountView = (TextView) view.findViewById(R.id.retweets_count);
 		final TextView favoritesCountView = (TextView) view.findViewById(R.id.favorites_count);
+		final TextView replyCountsView = (TextView) view.findViewById(R.id.replies_count);
 
 		final int defaultTextSize = getDefaultTextSize(context);
 		final int titleTextAppearance = ThemeUtils.getTitleTextAppearance(context);
@@ -130,7 +131,6 @@ public class ThemePreviewPreference extends Preference implements Constants, OnS
 			final TextView timeSourceView = (TextView) statusContentView.findViewById(R.id.time_source);
 			// final TextView retweetView = (TextView)
 			// statusContentView.findViewById(R.id.retweet_view);
-			final TextView repliesView = (TextView) statusContentView.findViewById(R.id.replies_view);
 
 			cardView.setItemSelector(null);
 
@@ -139,11 +139,9 @@ public class ThemePreviewPreference extends Preference implements Constants, OnS
 			screenNameView.setTextSize(defaultTextSize * 0.85f);
 			timeSourceView.setTextSize(defaultTextSize * 0.85f);
 			//retweetView.setTextSize(defaultTextSize * 0.85f);
-			repliesView.setTextSize(defaultTextSize * 0.85f);
 
 			profileView.setBackgroundResource(0);
 			//retweetView.setBackgroundResource(0);
-			repliesView.setBackgroundResource(0);
 			textView.setTextIsSelectable(false);
 
 			profileImageView.setImageResource(R.drawable.ic_launcher);
@@ -165,6 +163,9 @@ public class ThemePreviewPreference extends Preference implements Constants, OnS
 		}
 		if (favoritesCountView != null) {
 			favoritesCountView.setText("4");
+		}
+		if (replyCountsView != null) {
+			replyCountsView.setText("1");
 		}
 	}
 

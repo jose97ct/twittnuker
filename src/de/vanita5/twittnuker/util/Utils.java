@@ -126,7 +126,7 @@ import de.vanita5.twittnuker.BuildConfig;
 import de.vanita5.twittnuker.Constants;
 import de.vanita5.twittnuker.R;
 import de.vanita5.twittnuker.activity.CameraCropActivity;
-import de.vanita5.twittnuker.activity.support.OpenStreetMapViewerActivity;
+import de.vanita5.twittnuker.activity.support.GoogleMapViewerActivity;
 import de.vanita5.twittnuker.adapter.iface.IBaseAdapter;
 import de.vanita5.twittnuker.adapter.iface.IBaseCardAdapter;
 import de.vanita5.twittnuker.app.TwittnukerApplication;
@@ -1767,10 +1767,9 @@ public final class Utils implements Constants, TwitterConstants {
 		return null;
 	}
 
-	public static String getImageUploadStatus(final Context context, final CharSequence[] links, final CharSequence text) {
-		if (context == null || links == null || links.length == 0) return ParseUtils.parseString(text);
-		final SharedPreferences prefs = context.getSharedPreferences(SHARED_PREFERENCES_NAME, Context.MODE_PRIVATE);
-		final String imageUploadFormat = getNonEmptyString(prefs, KEY_IMAGE_UPLOAD_FORMAT, DEFAULT_IMAGE_UPLOAD_FORMAT);
+	public static String getImageUploadStatus(final CharSequence[] links, final CharSequence text) {
+		if (links == null || links.length == 0) return ParseUtils.parseString(text);
+		final String imageUploadFormat = DEFAULT_IMAGE_UPLOAD_FORMAT;
 		return imageUploadFormat.replace(FORMAT_PATTERN_LINK, ArrayUtils.toString(links, ' ', false)).replace(
 				FORMAT_PATTERN_TEXT, text);
 	}
@@ -2424,10 +2423,12 @@ public final class Utils implements Constants, TwitterConstants {
 			final String consumerKey = trim(c.getString(c.getColumnIndex(Accounts.CONSUMER_KEY)));
 			final String consumerSecret = trim(c.getString(c.getColumnIndex(Accounts.CONSUMER_SECRET)));
 			final boolean sameOAuthSigningUrl = c.getInt(c.getColumnIndex(Accounts.SAME_OAUTH_SIGNING_URL)) == 1;
+            final boolean noVersionSuffix = c.getInt(c.getColumnIndex(Accounts.NO_VERSION_SUFFIX)) == 1;
 			if (!isEmpty(apiUrlFormat)) {
-				cb.setRestBaseURL(getApiUrl(apiUrlFormat, "api", "/1.1/"));
+                final String versionSuffix = noVersionSuffix ? null : "/1.1/";
+                cb.setRestBaseURL(getApiUrl(apiUrlFormat, "api", versionSuffix));
 				cb.setOAuthBaseURL(getApiUrl(apiUrlFormat, "api", "/oauth/"));
-				cb.setUploadBaseURL(getApiUrl(apiUrlFormat, "upload", "/1.1/"));
+                cb.setUploadBaseURL(getApiUrl(apiUrlFormat, "upload", versionSuffix));
 				if (!sameOAuthSigningUrl) {
 					cb.setSigningRestBaseURL(DEFAULT_SIGNING_REST_BASE_URL);
 					cb.setSigningOAuthBaseURL(DEFAULT_SIGNING_OAUTH_BASE_URL);
@@ -2449,6 +2450,8 @@ public final class Utils implements Constants, TwitterConstants {
 			}
 			cb.setIncludeEntitiesEnabled(includeEntities);
 			cb.setIncludeRTsEnabled(includeRetweets);
+            cb.setIncludeReplyCountEnabled(true);
+            cb.setIncludeDescendentReplyCountEnabled(true);
 			switch (c.getInt(c.getColumnIndexOrThrow(Accounts.AUTH_TYPE))) {
 				case Accounts.AUTH_TYPE_OAUTH:
 				case Accounts.AUTH_TYPE_XAUTH: {
@@ -2820,27 +2823,6 @@ public final class Utils implements Constants, TwitterConstants {
 		return false;
 	}
 
-	public static boolean isValidImage(final File image) {
-		if (image == null) return false;
-		final BitmapFactory.Options o = new BitmapFactory.Options();
-		o.inJustDecodeBounds = true;
-		BitmapFactory.decodeFile(image.getPath(), o);
-		return o.outHeight > 0 && o.outWidth > 0;
-	}
-
-	public static boolean isValidImage(final InputStream is) {
-		if (is == null) return false;
-		final BitmapFactory.Options o = new BitmapFactory.Options();
-		o.inJustDecodeBounds = true;
-		BitmapFactory.decodeStream(is, new Rect(), o);
-		return o.outHeight > 0 && o.outWidth > 0;
-	}
-
-	public static boolean isValidUrl(final CharSequence text) {
-		if (TextUtils.isEmpty(text)) return false;
-		return URLUtil.isValidUrl(text.toString());
-	}
-
 	public static final int matcherEnd(final Matcher matcher, final int group) {
 		try {
 			return matcher.end(group);
@@ -2932,8 +2914,8 @@ public final class Utils implements Constants, TwitterConstants {
 		builder.appendQueryParameter(QUERY_PARAM_LAT, String.valueOf(latitude));
 		builder.appendQueryParameter(QUERY_PARAM_LNG, String.valueOf(longitude));
 		final Intent intent = new Intent(Intent.ACTION_VIEW, builder.build());
-		//Compare with Twidere
-        intent.setClass(context, OpenStreetMapViewerActivity.class);
+		//Fix class, because the activity depends on the branch (master/f-droid)
+        intent.setClass(context, GoogleMapViewerActivity.class);
         context.startActivity(Intent.createChooser(intent, null));
 	}
 

@@ -401,7 +401,7 @@ public class BackgroundOperationService extends IntentService implements Constan
 				uploadResultUrl = uploadMedia(imageFile, statusUpdate.accounts, statusUpdate.text);
 			}
 
-            final String unshortenedContent = mUseUploader && uploadResultUrl != null ? getImageUploadStatus(this,
+            final String unshortenedContent = mUseUploader && uploadResultUrl != null ? getImageUploadStatus(
 					new String[] { uploadResultUrl.toString() }, statusUpdate.text) : statusUpdate.text;
 
 			final boolean shouldShorten = mValidator.getTweetLength(unshortenedContent) > mValidator.getMaxTweetLength();
@@ -632,20 +632,7 @@ public class BackgroundOperationService extends IntentService implements Constan
 				}
 			});
 
-			if (mUploader.equals(SERVICE_UPLOADER_TWITPIC)) {
-				Twitter twitter = getTwitterInstance(this, accountId, MediaProvider.TWITPIC.toString(), TWITPIC_API_KEY);
-				if (twitter == null) throw new UploadException(this);
-
-				conf = twitter.getConfiguration();
-
-				ImageUpload imageUpload = new ImageUploadFactory(conf).getInstance(MediaProvider.TWITPIC);
-				try {
-					url = imageUpload.upload(file.getName(), is, message);
-				} catch (TwitterException e) {
-					throw new UploadException(this);
-				}
-			}
-			else if (mUploader.equals(SERVICE_UPLOADER_TWIPPLE)) {
+			if (mUploader.equals(SERVICE_UPLOADER_TWIPPLE)) {
 				Twitter twitter = getTwitterInstance(this, accountId, MediaProvider.TWIPPLE.toString(), "");
 				if (twitter == null) throw new UploadException(this);
 

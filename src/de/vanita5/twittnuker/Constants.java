@@ -31,7 +31,7 @@ package de.vanita5.twittnuker;
 public interface Constants extends TwittnukerConstants {
 
 	public static final String DATABASES_NAME = "twittnuker.sqlite";
-	public static final int DATABASES_VERSION = 69;
+	public static final int DATABASES_VERSION = 71;
 
 	public static final int MENU_GROUP_STATUS_SHARE = 20;
 
@@ -106,7 +106,6 @@ public interface Constants extends TwittnukerConstants {
 	public static final int MENU_OPEN_WITH_ACCOUNT = R.id.open_with_account;
     public static final int MENU_ACCOUNTS = R.id.accounts;
 	public static final int MENU_INVERSE_SELECTION = R.id.inverse_selection;
-	public static final int MENU_EDIT_MEDIAS = R.id.edit_medias;
 
 	public static final int LINK_ID_STATUS = 1;
 	public static final int LINK_ID_USER = 2;

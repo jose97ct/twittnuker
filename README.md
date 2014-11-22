@@ -9,16 +9,12 @@ Twidere updates will almost always be merged, so you can expect the latest featu
        src="https://developer.android.com/images/brand/en_generic_rgb_wo_60.png" />
 </a>
 
-## [TODO] F-Droid ##
-Remove GMS, replace Push Notifications with a free alternative
-
 ## Features (Twittnuker only) ##
 
 * Streaming
 * Additional image preview for various image hosters (If you are missing your favorite hoster, contact me!)
 * Tweet shortening via Hotot.in (more services may follow)
 * Hotot.in link expand (view Tweets shortened with hotot.in in full length!)
-* TwitPic Upload (more to follow)
 * Love Button (Retweet + Favorite in one action)
 
 

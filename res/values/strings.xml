@@ -19,7 +19,7 @@
 	<string name="signing_oauth_base_url">Signing OAuth Base URL</string>
 	<string name="signing_rest_base_url">Signing REST Base URL</string>
     <string name="api_url_format">API URL Format</string>
-    <string name="same_oauth_signing_url">Use same url for OAuth signing</string>
+    <string name="same_oauth_signing_url">Use same URL for OAuth signing</string>
 	<string name="auth_type">Auth type</string>
 	<string name="oauth">OAuth</string>
 	<string name="xauth">xAuth</string>
@@ -239,8 +239,6 @@
 	<string name="image_uploader_default">Default (Twitter)</string>
 	<string name="home_refresh">Refresh in home timeline</string>
 	<string name="error_message_image_upload_failed">Image upload failed.</string>
-	<string name="image_upload_format">Tweet format with image</string>
-	<string name="image_upload_format_summary">\"[LINK]\" = Image link\n\"[TEXT]\" = Tweet content\n(Third party only)</string>
 	<string name="tweet_shortener">Tweet shortener</string>
     <string name="status_shortener">Tweet shortener</string>
     <string name="status_shortener_default">None (Abort sending)</string>
@@ -387,7 +385,7 @@
 	<string name="network_error">Network error.</string>
 	<string name="api_data_corrupted">API data corrupted.</string>
 	<string name="ssl_error">SSL error, you may need to enable \"Ignore SSL error\" option.</string>
-	<string name="wrong_api_key">Incorrect API url or consumer key/secret, please check them again.</string>
+	<string name="wrong_api_key">Incorrect API URL or consumer key/secret, please check them again.</string>
 	<string name="status_updated">Tweet sent.</string>
 	<string name="status_deleted">Tweet deleted.</string>
 	<string name="status_favorited">Tweet favorited.</string>
@@ -609,8 +607,6 @@
     <string name="following_only_summary">Display notifications from users you follow only.</string>
     <string name="new_direct_message">New direct message</string>
     <string name="plain_list_style">Plain list style</string>
-    <string name="want_old_icon_back">Want old icon back?</string>
-    <string name="icon_restored_message">Icon restored!</string>
     <string name="add">Add</string>
     <string name="N_medias_quantity_one"><xliff:g id="items">%d</xliff:g> media</string>
     <string name="N_medias_quantity_other"><xliff:g id="items">%d</xliff:g> medias</string>
@@ -626,7 +622,6 @@
     <string name="api_url_format_help">[DOMAIN]: Twitter API domain.\nExample: https://[DOMAIN].twitter.com/ will be replaced to https://api.twitter.com/.</string>
     <string name="no_version_suffix">No version suffix</string>
     <string name="inverse_selection">Inverse selection</string>
-    <string name="edit_medias">Edit medias</string>
     <string name="medias">Medias</string>
     <string name="mute_user">Mute <xliff:g id="name">%s</xliff:g></string>
     <string name="muted_user">Muted <xliff:g id="name">%s</xliff:g></string>
@@ -640,6 +635,12 @@
     <string name="remove_from_filter">Remove from filter</string>
     <string name="sort_timeline_by_id">Sort timeline by ID</string>
     <string name="sort_timeline_by_id_summary">May be useful for other services (Status.net)</string>
+    <string name="style">Style</string>
+    <string name="color">Color</string>
+    <string name="font_family">Font family</string>
+    <string name="appearance">Appearance</string>
+    <string name="function">Function</string>
+    <string name="replies">Replies</string>
 
     <!-- Twittnuker -->
     <string name="unread_count_summary">Counter for unread tweets and messages in the tab</string>
@@ -698,4 +699,6 @@
     <string name="action_shortening">shortening tweet</string>
     <string name="uploading_image">Uploading...</string>
     <string name="no_tab_hint">You can add tabs in the settings</string>
+
+    <string name="refresh_on_start_workaround">Use "Refresh before streaming" instead</string>
 </resources>

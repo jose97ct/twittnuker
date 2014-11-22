@@ -456,6 +456,7 @@ public class HomeActivity extends BaseSupportActivity implements OnClickListener
 				&& mUpdateUnreadCountTask.getStatus() == AsyncTask.Status.RUNNING) return;
         mUpdateUnreadCountTask = new UpdateUnreadCountTask(mTabIndicator);
 		mUpdateUnreadCountTask.execute();
+		mTabIndicator.setDisplayBadge(mPreferences.getBoolean(KEY_UNREAD_COUNT, true));
 	}
 
 	@Override
@@ -518,7 +519,8 @@ public class HomeActivity extends BaseSupportActivity implements OnClickListener
         }
 		setContentView(R.layout.activity_home);
 		sendBroadcast(new Intent(BROADCAST_HOME_ACTIVITY_ONCREATE));
-		final boolean refreshOnStart = mPreferences.getBoolean(KEY_REFRESH_ON_START, false);
+//		final boolean refreshOnStart = mPreferences.getBoolean(KEY_REFRESH_ON_START, false);
+		final boolean refreshOnStart = mPreferences.getBoolean(KEY_REFRESH_ON_START, false); //FIXME workaround
         mTabDisplayOption = getTabDisplayOptionInt(this);
 		final int initialTabPosition = handleIntent(intent, savedInstanceState == null);
 
@@ -535,7 +537,7 @@ public class HomeActivity extends BaseSupportActivity implements OnClickListener
             mTabIndicator.setDisplayLabel(false);
             mTabIndicator.setDisplayIcon(true);
         }
-        mTabIndicator.setDisplayBadge(mPreferences.getBoolean(KEY_UNREAD_COUNT, true));
+//        mTabIndicator.setDisplayBadge(mPreferences.getBoolean(KEY_UNREAD_COUNT, true));
         mActionsButton.setOnClickListener(this);
         mActionsButton.setOnLongClickListener(this);
 		setTabPosition(initialTabPosition);
@@ -692,7 +694,8 @@ public class HomeActivity extends BaseSupportActivity implements OnClickListener
 			openSearch(this, accountId, query);
 			return -1;
 		}
-		final boolean refreshOnStart = mPreferences.getBoolean(KEY_REFRESH_ON_START, false);
+//		final boolean refreshOnStart = mPreferences.getBoolean(KEY_REFRESH_ON_START, false); FIXME workaround
+		final boolean refreshOnStart = false;
 		final long[] refreshedIds = intent.getLongArrayExtra(EXTRA_IDS);
 		if (refreshedIds != null) {
 			mTwitterWrapper.refreshAll(refreshedIds);
